@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tpaga SDK Usage Example App</string>
+    <string name="tpaga_public_api_key">6qtood9d4so7jgclfddkkchj3k6jj83d</string>
+    <string name="verify_field">verifica los campos</string>
+</resources>

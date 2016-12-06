@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="default_edit_text_style" parent="@style/Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">#133653</item>
+        <item name="android:textColorHint">#4e4c4c</item>
+        <item name="android:textColorHighlight">#9f9d9d</item>
+        <item name="android:textColorLink">#4e4c4c</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="title_style">
+        <item name="android:textColor">#133653</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="button_red" parent="Theme.AppCompat.Light">
+        <item name="android:textAllCaps">true</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">#f50057</item>
+        <item name="colorButtonNormal">#f50057</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+</resources>
