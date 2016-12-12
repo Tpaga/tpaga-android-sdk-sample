@@ -1,4 +1,4 @@
-package co.tpaga.tpagasdkusageexampleapp;
+package co.tpaga.example;
 
 import android.content.Intent;
 import android.os.Bundle;

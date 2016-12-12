@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="co.tpaga.tpagasdkusageexampleapp.MainActivity">
+    tools:context="co.tpaga.example.MainActivity">
 
     <Button
         android:id="@+id/button_start_customized_view_example_activity"

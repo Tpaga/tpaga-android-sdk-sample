@@ -1,4 +1,4 @@
-package co.tpaga.tpagasdkusageexampleapp;
+package co.tpaga.example;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +16,11 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import co.tpaga.tpagasdk.Entities.CreditCardTpaga;
-import co.tpaga.tpagasdk.Entities.CreditCardWallet;
-import co.tpaga.tpagasdk.FragmentCreditCard.AddCreditCardView;
-import co.tpaga.tpagasdk.Tools.GenericResponse;
-import co.tpaga.tpagasdk.Tools.StatusResponse;
-import co.tpaga.tpagasdk.Tools.TpagaTools;
-import co.tpaga.tpagasdk.Tpaga;
+import co.tpaga.android.Entities.CreditCard;
+import co.tpaga.android.FragmentCreditCard.AddCreditCardView;
+import co.tpaga.android.Tools.TpagaException;
+import co.tpaga.android.Tools.TpagaTools;
+import co.tpaga.android.Tpaga;
 
 public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivity implements AddCreditCardView.UserActionsListener {
 
@@ -41,7 +39,6 @@ public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivit
     TextInputLayout cvvTil;
     @BindView(R.id.et_cvv_number)
     EditText cvv;
-
 
     @BindView(R.id.et_name_in_card_til)
     TextInputLayout nameTil;
@@ -85,7 +82,6 @@ public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivit
         adapterYears.notifyDataSetChanged();
     }
 
-
     @OnClick(R.id.bt_scan_card)
     public void onScanPress() {
         Tpaga.startScanCreditCard(this);
@@ -93,15 +89,15 @@ public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivit
 
     @OnClick(R.id.bt_add_cc_request)
     public void onClickAddCC() {
-        if (!Tpaga.validateCreditCardData(getCC())) {
+        if (!Tpaga.validateCreditCardData(getCreditCard())) {
             TpagaTools.showToast(this, getString(R.string.verify_field));
             return;
         }
-        Tpaga.tokenizeCreditCard(this);
+        Tpaga.tokenizeCreditCard(this, getCreditCard());
     }
 
-    public CreditCardTpaga getCC() {
-        return CreditCardTpaga.create(
+    public CreditCard getCreditCard() {
+        return CreditCard.create(
                 cc_number.getText().toString().replaceAll("\\s+", ""),
                 year.getText().toString(),
                 month.getText().toString(),
@@ -110,8 +106,8 @@ public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivit
     }
 
     @Override
-    public void onResponseSuccessfulOfAddCreditCard(CreditCardWallet creditCardWallet) {
-        Toast.makeText(this, "credit card " + creditCardWallet.tempCcToken, Toast.LENGTH_LONG).show();
+    public void onResponseSuccessTokenizeCreditCard(String creditCardToken) {
+        Toast.makeText(this, "credit card " + creditCardToken, Toast.LENGTH_LONG).show();
         /**
          * you must send the card token to your server to use in payments
          */
@@ -119,37 +115,22 @@ public class AddCreditCardCustomizedViewExampleActivity extends AppCompatActivit
 
     @Override
     public void showError(Throwable t) {
+        if (t instanceof TpagaException)
+            ((TpagaException) t).getStatusCode();
         TpagaTools.showToast(this, t.getMessage());
         t.printStackTrace();
     }
 
-    @Override
-    public void showError(GenericResponse genericResponse) {
-        showToastError(genericResponse.status);
-    }
-
-    @Override
-    public void showToastError(StatusResponse response) {
-        if (response != null && !response.responseMessage.isEmpty()) {
-            TpagaTools.showToast(this, response.responseMessage);
+    public void onResultScanCreditCard(CreditCard creditCard) {
+        cc_number.setText(creditCard.primaryAccountNumber);
+        if (creditCard.expirationYear != null && !creditCard.expirationYear.isEmpty()) {
+            year.setText(creditCard.expirationYear);
         }
-    }
-
-    @Override
-    public CreditCardTpaga getCreditCard() {
-        return getCC();
-    }
-
-    public void onResultScanCreditCard(CreditCardTpaga creditCardTpaga) {
-        cc_number.setText(creditCardTpaga.primaryAccountNumber);
-        if (creditCardTpaga.expirationYear != null && !creditCardTpaga.expirationYear.isEmpty()) {
-            year.setText(creditCardTpaga.expirationYear);
+        if (creditCard.expirationMonth != null && !creditCard.expirationMonth.isEmpty()) {
+            month.setText(creditCard.expirationMonth);
         }
-        if (creditCardTpaga.expirationMonth != null && !creditCardTpaga.expirationMonth.isEmpty()) {
-            month.setText(creditCardTpaga.expirationMonth);
-        }
-        if (creditCardTpaga.cvc != null && !creditCardTpaga.cvc.isEmpty()) {
-            cvv.setText(creditCardTpaga.cvc);
+        if (creditCard.cvc != null && !creditCard.cvc.isEmpty()) {
+            cvv.setText(creditCard.cvc);
         }
 
     }

@@ -1,4 +1,4 @@
-package co.tpaga.tpagasdkusageexampleapp;
+package co.tpaga.example;
 
 import org.junit.Test;
 

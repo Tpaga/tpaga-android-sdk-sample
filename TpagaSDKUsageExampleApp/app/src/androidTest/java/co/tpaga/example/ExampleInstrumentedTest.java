@@ -1,4 +1,4 @@
-package co.tpaga.tpagasdkusageexampleapp;
+package co.tpaga.example;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
