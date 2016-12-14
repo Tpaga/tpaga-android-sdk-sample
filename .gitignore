@@ -12,6 +12,7 @@
 
 # Gradle files
 TpagaSDKUsageExampleApp/.gradle/
+TpagaSDKUsageExampleApp/gradle/
 TpagaSDKUsageExampleApp/build/
 
 # Local configuration file (sdk path, etc)
